@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 public class Pizza {
 	@Id
 	@GeneratedValue
-	@Column(name="Pizza_Id")
+	@Column
 	private int pizzaId;
 	@Column(name="Pizza_Type")
 	private String pizzaType;
@@ -25,6 +25,20 @@ public class Pizza {
 	private double pizzaCost;
 	@OneToMany(mappedBy = "pizza",cascade = CascadeType.ALL)
 	private List<Coupon> coupon;
+	@OneToMany(mappedBy = "pizza",cascade=CascadeType.ALL)
+	private List<PizzaOrder> pizzaOrder;
+	public List<PizzaOrder> getPizzaOrder() {
+		return pizzaOrder;
+	}
+	public void setPizzaOrder(List<PizzaOrder> pizzaOrder) {
+		this.pizzaOrder = pizzaOrder;
+	}
+	public List<Coupon> getCoupon() {
+		return coupon;
+	}
+	public void setCoupon(List<Coupon> coupon) {
+		this.coupon = coupon;
+	}
 	public int getPizzaId() {
 		return pizzaId;
 	}

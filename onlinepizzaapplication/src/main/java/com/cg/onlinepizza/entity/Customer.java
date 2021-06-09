@@ -9,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.cg.onlineinsurance.entity.PolicyDetails;
+
 
 @Entity
 public class Customer {
@@ -30,11 +30,11 @@ public class Customer {
 	@Column(name="Password")
 	private String password;
 	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
-	private List<Order> order;
-	public List<Order> getOrder() {
+	private List<CustomerOrder> order;
+	public List<CustomerOrder> getOrder() {
 		return order;
 	}
-	public void setOrder(List<Order> order) {
+	public void setOrder(List<CustomerOrder> order) {
 		this.order = order;
 	}
 	public Customer() {

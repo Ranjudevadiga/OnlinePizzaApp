@@ -1,55 +1,78 @@
 package com.cg.onlinepizza.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+
 
 @Entity
 public class Coupon {
 	@Id
 	@GeneratedValue
-	private int coupanId;
-	private String coupanName;
-	private String coupanType;
-	private String coupanDescription;
-	@ManyToOne 
+	private int couponId;
+	private String couponName;
+	private String couponType;
+	private String couponDescription;
+	@ManyToOne
 	@JoinColumn(name="pizzaId")
 	private Pizza pizza;
-	public int getCoupanId() {
-		return coupanId;
+	@OneToMany(mappedBy = "coupon",cascade = CascadeType.ALL)
+	private List<PizzaOrder> pizzaorder;
+	public List<PizzaOrder> getPizzaorder() {
+		return pizzaorder;
 	}
-	public void setCoupanId(int coupanId) {
-		this.coupanId = coupanId;
+	public void setPizzaorder(List<PizzaOrder> pizzaorder) {
+		this.pizzaorder = pizzaorder;
 	}
-	public String getCoupanName() {
-		return coupanName;
+	
+	public int getCouponId() {
+		return couponId;
 	}
-	public void setCoupanName(String coupanName) {
-		this.coupanName = coupanName;
+	public void setCouponId(int couponId) {
+		this.couponId = couponId;
 	}
-	public String getCoupanType() {
-		return coupanType;
+	public String getCouponName() {
+		return couponName;
 	}
-	public void setCoupanType(String coupanType) {
-		this.coupanType = coupanType;
+	public void setCouponName(String couponName) {
+		this.couponName = couponName;
 	}
-	public String getCoupanDescription() {
-		return coupanDescription;
+	public String getCouponType() {
+		return couponType;
 	}
-	public void setCoupanDescription(String coupanDescription) {
-		this.coupanDescription = coupanDescription;
+	public void setCouponType(String couponType) {
+		this.couponType = couponType;
 	}
-	public Coupon(int coupanId, String coupanName, String coupanType, String coupanDescription) {
-		super();
-		this.coupanId = coupanId;
-		this.coupanName = coupanName;
-		this.coupanType = coupanType;
-		this.coupanDescription = coupanDescription;
+	public String getCouponDescription() {
+		return couponDescription;
+	}
+	public void setCouponDescription(String couponDescription) {
+		this.couponDescription = couponDescription;
 	}
 	public Coupon() {
 		super();
+	}
+	
+	public Coupon(int couponId, String couponName, String couponType, String couponDescription, Pizza pizza) {
+		super();
+		this.couponId = couponId;
+		this.couponName = couponName;
+		this.couponType = couponType;
+		this.couponDescription = couponDescription;
+		this.pizza = pizza;
+	}
+	public Pizza getPizza() {
+		return pizza;
+	}
+	public void setPizza(Pizza pizza) {
+		this.pizza = pizza;
 	}
 	
 
