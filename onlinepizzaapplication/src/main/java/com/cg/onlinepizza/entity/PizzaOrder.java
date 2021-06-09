@@ -2,9 +2,14 @@ package com.cg.onlinepizza.entity;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+import com.cg.onlineinsurance.entity.Customer;
 
 @Entity
 public class PizzaOrder {
@@ -13,8 +18,14 @@ public class PizzaOrder {
 	private int bookingOrderId;
 	private LocalDate dateOfOrder;
 	private double totalCost;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="pizzaId")
 	private Pizza pizza;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="orderId")
 	private Order order;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="couponId")
 	private Coupon coupon;
 	public PizzaOrder() {
 		super();

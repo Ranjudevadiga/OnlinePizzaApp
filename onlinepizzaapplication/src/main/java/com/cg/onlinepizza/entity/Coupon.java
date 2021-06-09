@@ -3,6 +3,8 @@ package com.cg.onlinepizza.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Coupon {
@@ -12,6 +14,9 @@ public class Coupon {
 	private String coupanName;
 	private String coupanType;
 	private String coupanDescription;
+	@ManyToOne 
+	@JoinColumn(name="pizzaId")
+	private Pizza pizza;
 	public int getCoupanId() {
 		return coupanId;
 	}
