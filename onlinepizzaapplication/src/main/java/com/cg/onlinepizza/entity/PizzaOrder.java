@@ -7,10 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Range;
 
 
 
@@ -21,28 +22,62 @@ public class PizzaOrder {
 	private int bookingOrderId;
 	private LocalDate dateOfOrder;
 	private double totalCost;
-	@ManyToOne
-	@JoinColumn(name="pizzaId",referencedColumnName = "pizzaId")
-	private Pizza pizza;
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="orderId")
-	private CustomerOrder order;
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="couponId",referencedColumnName = "couponId")
-	private Coupon coupon;
-	public PizzaOrder() {
-		super();
-	}
-	public PizzaOrder(int bookingOrderId, LocalDate dateOfOrder, double totalCost, Pizza pizza, CustomerOrder order,
-			Coupon coupon) {
+	private String pizzaSize;
+	
+	private int pizzaQuantity;
+	private String transactionMode;
+	public PizzaOrder(int bookingOrderId, LocalDate dateOfOrder, double totalCost, String pizzaSize, int pizzaQuantity,
+			String transactionMode, Pizza pizza, Coupon coupon,Customer customer) {
 		super();
 		this.bookingOrderId = bookingOrderId;
 		this.dateOfOrder = dateOfOrder;
 		this.totalCost = totalCost;
+		this.pizzaSize = pizzaSize;
+		this.pizzaQuantity = pizzaQuantity;
+		this.transactionMode = transactionMode;
 		this.pizza = pizza;
-		this.order = order;
 		this.coupon = coupon;
+		this.customer=customer;
 	}
+	public String getPizzaSize() {
+		return pizzaSize;
+	}
+	public void setPizzaSize(String pizzaSize) {
+		this.pizzaSize = pizzaSize;
+	}
+	public int getPizzaQuantity() {
+		return pizzaQuantity;
+	}
+	public void setPizzaQuantity(int pizzaQuantity) {
+		this.pizzaQuantity = pizzaQuantity;
+	}
+	public String getTransactionMode() {
+		return transactionMode;
+	}
+	public void setTransactionMode(String transactionMode) {
+		this.transactionMode = transactionMode;
+	}
+	@ManyToOne
+	@JoinColumn(name="pizzaId",referencedColumnName = "pizzaId")
+	private Pizza pizza;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="couponId",referencedColumnName = "couponId")
+	private Coupon coupon;
+	
+	@ManyToOne
+	@JoinColumn(name="customerId",referencedColumnName = "customerId")
+	private Customer customer;
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	public PizzaOrder() {
+		super();
+	}
+	
 	public int getBookingOrderId() {
 		return bookingOrderId;
 	}
@@ -66,12 +101,6 @@ public class PizzaOrder {
 	}
 	public void setPizza(Pizza pizza) {
 		this.pizza = pizza;
-	}
-	public CustomerOrder getOrder() {
-		return order;
-	}
-	public void setOrder(CustomerOrder order) {
-		this.order = order;
 	}
 	public Coupon getCoupon() {
 		return coupon;

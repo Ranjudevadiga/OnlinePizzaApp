@@ -3,6 +3,7 @@ package com.cg.onlinepizza.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,17 +18,20 @@ public class Coupon {
 	@Id
 	@GeneratedValue
 	private int couponId;
+	@Column
 	private String couponName;
-	private String couponType;
+	@Column
+	private int  discountValue;
+	@Column
 	private String couponDescription;
 	@ManyToOne
-	@JoinColumn(name="pizzaId")
+	@JoinColumn(name="pizzaId",referencedColumnName = "pizzaId")
 	private Pizza pizza;
 	@OneToMany(mappedBy = "coupon",cascade = CascadeType.ALL)
 	private List<PizzaOrder> pizzaorder;
-	public List<PizzaOrder> getPizzaorder() {
+	/*public List<PizzaOrder> getPizzaorder() {
 		return pizzaorder;
-	}
+	}*/
 	public void setPizzaorder(List<PizzaOrder> pizzaorder) {
 		this.pizzaorder = pizzaorder;
 	}
@@ -44,11 +48,11 @@ public class Coupon {
 	public void setCouponName(String couponName) {
 		this.couponName = couponName;
 	}
-	public String getCouponType() {
-		return couponType;
+	public int getDiscountValue() {
+		return discountValue;
 	}
-	public void setCouponType(String couponType) {
-		this.couponType = couponType;
+	public void setDiscountValue(int discountValue) {
+		this.discountValue = discountValue;
 	}
 	public String getCouponDescription() {
 		return couponDescription;
@@ -60,11 +64,11 @@ public class Coupon {
 		super();
 	}
 	
-	public Coupon(int couponId, String couponName, String couponType, String couponDescription, Pizza pizza) {
+	public Coupon(int couponId, String couponName, int discountValue, String couponDescription, Pizza pizza) {
 		super();
 		this.couponId = couponId;
 		this.couponName = couponName;
-		this.couponType = couponType;
+		this.discountValue = discountValue;
 		this.couponDescription = couponDescription;
 		this.pizza = pizza;
 	}

@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 public class Customer {
 	@Id
 	@GeneratedValue
-	@Column(name="customer_id")
+	@Column
 	private int customerId;
 	@Column(name="customer_Name")
 	private String customerName;
@@ -31,6 +31,9 @@ public class Customer {
 	private String password;
 	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
 	private List<CustomerOrder> order;
+	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+	private List<PizzaOrder> pizzaOrder;
+	
 	public List<CustomerOrder> getOrder() {
 		return order;
 	}

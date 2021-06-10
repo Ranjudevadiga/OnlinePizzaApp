@@ -17,25 +17,26 @@ public class Pizza {
 	private int pizzaId;
 	@Column(name="Pizza_Type")
 	private String pizzaType;
+	private String pizzaSize;
 	@Column(name="Pizza_Name")
 	private String pizzaName;
 	@Column(name="Pizza_Description")
 	private String pizzaDescription;
 	@Column(name="Pizza_Cost")
 	private double pizzaCost;
-	@OneToMany(mappedBy = "pizza",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "pizza")
 	private List<Coupon> coupon;
 	@OneToMany(mappedBy = "pizza",cascade=CascadeType.ALL)
 	private List<PizzaOrder> pizzaOrder;
-	public List<PizzaOrder> getPizzaOrder() {
+	/*public List<PizzaOrder> getPizzaOrder() {
 		return pizzaOrder;
-	}
+	}*/
 	public void setPizzaOrder(List<PizzaOrder> pizzaOrder) {
 		this.pizzaOrder = pizzaOrder;
 	}
-	public List<Coupon> getCoupon() {
+	/*public List<Coupon> getCoupon() {
 		return coupon;
-	}
+	}*/
 	public void setCoupon(List<Coupon> coupon) {
 		this.coupon = coupon;
 	}
@@ -69,13 +70,20 @@ public class Pizza {
 	public void setPizzaCost(double pizzaCost) {
 		this.pizzaCost = pizzaCost;
 	}
-	public Pizza(int pizzaId, String pizzaType, String pizzaName, String pizzaDescription, double pizzaCost) {
+	public String getPizzaSize() {
+		return pizzaSize;
+	}
+	public void setPizzaSize(String pizzaSize) {
+		this.pizzaSize = pizzaSize;
+	}
+	public Pizza(int pizzaId, String pizzaType, String pizzaName, String pizzaDescription, double pizzaCost,String pizzaSize) {
 		super();
 		this.pizzaId = pizzaId;
 		this.pizzaType = pizzaType;
 		this.pizzaName = pizzaName;
 		this.pizzaDescription = pizzaDescription;
 		this.pizzaCost = pizzaCost;
+		this.pizzaSize=pizzaSize;
 	}
 	public Pizza() {
 		super();
