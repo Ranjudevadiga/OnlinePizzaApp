@@ -16,10 +16,9 @@ import com.cg.onlinepizza.entity.Customer;
 import com.cg.onlinepizza.entity.Pizza;
 import com.cg.onlinepizza.entity.PizzaOrder;
 import com.cg.onlinepizza.utils.BookingIdNotAvailableException;
-import com.cg.onlinepizza.utils.BookingOrderIdDoesNotExists;
 import com.cg.onlinepizza.utils.CouponDoesNotExistsException;
 import com.cg.onlinepizza.utils.CouponDoesNotMatchException;
-import com.cg.onlinepizza.utils.PizzaNotFoundException;
+import com.cg.onlinepizza.utils.OrderUpdateException;
 
 @Service
 public class PizzaOrderService implements IPizzaOrderService{
@@ -79,35 +78,42 @@ public class PizzaOrderService implements IPizzaOrderService{
 
 	@Override
 	public PizzaOrder updatePizzaOrder(PizzaOrderDTO orderDto) {
-		if(pizzaOrderDao.getPizzaOrderById(orderDto.getBookingOrderId())!=null)
-		{
-			
-			PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderDto.getBookingOrderId());
-			Coupon coupon= couponDao.getByCouponName(orderDto.getCouponName());
-			Pizza pizza=pizzaDao.getPizzaId(orderDto.getPizzaId());
-			order.setPizzaQuantity(orderDto.getPizzaQuantity());
-			
-			int qty=orderDto.getPizzaQuantity();
-			double price=pizza.getPizzaCost();
-			System.out.println(coupon);
-			if(coupon==null) {
-				order.setTotalCost(calculate(price,qty));
+		LocalDate date=LocalDate.now();
+		System.out.println(orderDto.getDateOfOrder());
+		PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderDto.getBookingOrderId());
+		if(order.getDateOfOrder().compareTo(date)==0) {
+		
+			if(pizzaOrderDao.getPizzaOrderById(orderDto.getBookingOrderId())!=null)
+			{
 				
-				return pizzaOrderDao.save(order);
+				Coupon coupon= couponDao.getByCouponName(orderDto.getCouponName());
+				Pizza pizza=pizzaDao.getPizzaId(orderDto.getPizzaId());
+				order.setPizzaQuantity(orderDto.getPizzaQuantity());
 				
-			}
-			else {
-				
-				order.setTotalCost(caluculateTotal(pizza.getPizzaId(),orderDto.getCouponName(),price,qty));
-				return pizzaOrderDao.save(order);
-				
+				int qty=orderDto.getPizzaQuantity();
+				double price=pizza.getPizzaCost();
+				System.out.println(coupon);
+				if(coupon==null) {
+					order.setTotalCost(calculate(price,qty));
+					
+					return pizzaOrderDao.save(order);
+					
+				}
+				else {
+					
+					order.setTotalCost(caluculateTotal(pizza.getPizzaId(),orderDto.getCouponName(),price,qty));
+					return pizzaOrderDao.save(order);
+					
+				}
+			}else {
+				throw new BookingIdNotAvailableException();
 			}
 		}else {
-			throw new BookingIdNotAvailableException();
+			throw new OrderUpdateException();
 		}
-
+		}
 	
-	}
+	
 
 	@Override
 	public List<PizzaOrder> cancelPizzaOrder(int orderId) {
@@ -162,8 +168,17 @@ public class PizzaOrderService implements IPizzaOrderService{
 	}
 
 	@Override
-	public List<PizzaOrder> viewListOrder(int customerId) {
+	public List<PizzaOrder> viewOrderList(int customerId) {
 		return pizzaOrderDao.getPizzaOrderByCustomerId(customerId);
 	}
+
+	@Override
+	public List<Pizza> viewPizzaByPrice(double min, double max) {
+		List<Pizza> pizza=pizzaDao.sortByPrice(min, max);
+		return pizza;
+	}
+
+	
+	
 
 }

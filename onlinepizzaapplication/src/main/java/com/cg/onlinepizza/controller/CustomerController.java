@@ -1,10 +1,13 @@
 package com.cg.onlinepizza.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,11 +24,14 @@ import com.cg.onlinepizza.dao.CouponDao;
 import com.cg.onlinepizza.dao.PizzaDao;
 import com.cg.onlinepizza.dao.PizzaOrderDao;
 import com.cg.onlinepizza.dto.PizzaOrderDTO;
+import com.cg.onlinepizza.entity.Pizza;
 import com.cg.onlinepizza.entity.PizzaOrder;
 import com.cg.onlinepizza.service.PizzaOrderService;
 import com.cg.onlinepizza.utils.BookingOrderIdDoesNotExists;
 import com.cg.onlinepizza.utils.ListEmptyException;
 import com.cg.onlinepizza.utils.PizzaNotFoundException;
+import com.cg.onlinepizza.utils.PizzaNotFoundInRangeException;
+import com.cg.onlinepizza.utils.PriceException;
 
 @RestController
 @RequestMapping("/Customer")
@@ -74,10 +80,22 @@ public class CustomerController {
 	}
 	@GetMapping("/viewCustomerOrders/{id}")
 	public ResponseEntity <List<PizzaOrder>> viewCustomerOrders(@PathVariable int id) {
-		List<PizzaOrder> order=pizzaOrderService.viewListOrder(id);
+		List<PizzaOrder> order=pizzaOrderService.viewOrderList(id);
 		if(order.size()<=0) throw new ListEmptyException();
 		return new ResponseEntity<List<PizzaOrder>>(order, HttpStatus.OK);
 	}
+	
+	@GetMapping("/viewPizzaBySorting/{min}/{max}")
+	public ResponseEntity <List<Pizza>> viewPizzaByCost(@PathVariable double min,@PathVariable double max) throws PizzaNotFoundInRangeException {
+		if(min<max) {
+			List<Pizza> order=pizzaOrderService.viewPizzaByPrice(min, max);
+			if(order.size()<=0) throw new PizzaNotFoundInRangeException();
+			return new ResponseEntity<List<Pizza>>(order, HttpStatus.OK);
+		}else {
+			throw new PriceException();
+		}
+	}
+	
+	
 
-
-}
+} 

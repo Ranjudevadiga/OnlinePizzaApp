@@ -36,5 +36,19 @@ public class ExceptionHandlers {
 	public ResponseEntity<Object> exception( BookingIdNotAvailableException exception){
 		return new ResponseEntity<>("Booking Id Not Available",HttpStatus.NOT_FOUND);
 		}
+	@ExceptionHandler(value=OrderUpdateException.class)
+	public ResponseEntity<Object> exception( OrderUpdateException exception){
+		return new ResponseEntity<>("Order Cannot be updated",HttpStatus.NOT_FOUND);
+		}
+	
+	@ExceptionHandler(value=PriceException.class)
+	public ResponseEntity<Object> exception( PriceException exception){
+		return new ResponseEntity<>("Minimum price should be less than maximum price",HttpStatus.NOT_FOUND);
+		}
+	
+	@ExceptionHandler(value=PizzaNotFoundInRangeException.class)
+	public ResponseEntity<Object> exception( PizzaNotFoundInRangeException exception){
+		return new ResponseEntity<>("No Pizza found in selected price range",HttpStatus.NOT_FOUND);
+		}
 
 }
