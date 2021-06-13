@@ -50,5 +50,25 @@ public class ExceptionHandlers {
 	public ResponseEntity<Object> exception( PizzaNotFoundInRangeException exception){
 		return new ResponseEntity<>("No Pizza found in selected price range",HttpStatus.NOT_FOUND);
 		}
+	
+	@ExceptionHandler(value=IDNotFoundException.class)
+	public ResponseEntity<Object> exception( IDNotFoundException exception){
+		return new ResponseEntity<>("Customer ID not found",HttpStatus.NOT_FOUND);
+		}
+	
+	@ExceptionHandler(value=ListIsEmptyException.class)
+	public ResponseEntity<Object> exception( ListIsEmptyException exception){
+		return new ResponseEntity<>("List is empty",HttpStatus.NOT_FOUND);
+		}
+	
+	@ExceptionHandler(value=PizzaIdNotFoundException.class)
+	public ResponseEntity<Object> exception( PizzaIdNotFoundException exception){
+		return new ResponseEntity<>("Pizza ID not found",HttpStatus.NOT_FOUND);
+		}
+	
+	@ExceptionHandler(value=UsernameAlreadyExistsException.class)
+	public ResponseEntity<Object> exception( UsernameAlreadyExistsException exception){
+		return new ResponseEntity<>("Username already exists",HttpStatus.NOT_FOUND);
+		}
 
 }

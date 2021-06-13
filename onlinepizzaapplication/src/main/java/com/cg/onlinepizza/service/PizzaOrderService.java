@@ -19,6 +19,7 @@ import com.cg.onlinepizza.utils.BookingIdNotAvailableException;
 import com.cg.onlinepizza.utils.CouponDoesNotExistsException;
 import com.cg.onlinepizza.utils.CouponDoesNotMatchException;
 import com.cg.onlinepizza.utils.OrderUpdateException;
+import com.cg.onlinepizza.utils.PizzaIdNotFoundException;
 
 @Service
 public class PizzaOrderService implements IPizzaOrderService{
@@ -186,6 +187,43 @@ public class PizzaOrderService implements IPizzaOrderService{
 			return null; 
 		else 
 			return couponList;
+		}
+	
+	@Override
+	public void addCustomer(Customer customer)  {
+		 customerDao.save(customer);
+		
+	}
+	
+	//updating customer
+	@Override
+	public String updateCustomer(int customerId,Customer customer) {
+		if(customerDao.existsById(customerId)){
+			customerDao.save(customer);
+			return "updated";
+		}
+		return "Id Not Found";
+	}
 
-}
+	//deleting customer
+	@Override
+	public boolean deleteCustomer(Integer customerId) {
+		customerDao.deleteById(customerId);
+		return true;
+	}
+
+	//Viewing customer by Id
+	@Override
+	public Customer viewCustomerById(Integer customerId) {
+			return customerDao.getCustomerId(customerId);
+	}
+	
+	
+	@Override
+	public List<Pizza> viewPizzaList() throws PizzaIdNotFoundException {
+		List<Pizza> pizza = pizzaDao.findAll();
+		return pizza;
+	}
+		
+	
 }

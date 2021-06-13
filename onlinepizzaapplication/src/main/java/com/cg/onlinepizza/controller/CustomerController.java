@@ -15,22 +15,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.onlinepizza.dao.CouponDao;
+import com.cg.onlinepizza.dao.CustomerDao;
 import com.cg.onlinepizza.dao.PizzaDao;
 import com.cg.onlinepizza.dao.PizzaOrderDao;
 import com.cg.onlinepizza.dto.PizzaOrderDTO;
 import com.cg.onlinepizza.entity.Coupon;
+import com.cg.onlinepizza.entity.Customer;
 import com.cg.onlinepizza.entity.Pizza;
 import com.cg.onlinepizza.entity.PizzaOrder;
-import com.cg.onlinepizza.service.CouponService;
 import com.cg.onlinepizza.service.PizzaOrderService;
 import com.cg.onlinepizza.utils.BookingOrderIdDoesNotExists;
+import com.cg.onlinepizza.utils.IDNotFoundException;
 import com.cg.onlinepizza.utils.ListEmptyException;
 import com.cg.onlinepizza.utils.PizzaNotFoundException;
 import com.cg.onlinepizza.utils.PizzaNotFoundInRangeException;
 import com.cg.onlinepizza.utils.PriceException;
+import com.cg.onlinepizza.utils.UsernameAlreadyExistsException;
 
 @RestController
 @RequestMapping("/Customer")
@@ -44,6 +48,9 @@ public class CustomerController {
 	PizzaDao pizzaDao;
 	@Autowired
 	PizzaOrderDao orderDao; 
+	
+	  @Autowired
+		CustomerDao customerDao;
 	@PostMapping("/order")
 	public ResponseEntity<PizzaOrder> bookPizzaOrder(@Valid @RequestBody PizzaOrderDTO pizzaOrderDto){
 		if(!pizzaDao.findById(pizzaOrderDto.getPizzaId()).isPresent()) {
@@ -101,6 +108,54 @@ public class CustomerController {
 			throw new ListEmptyException();
 		else	
 			return new ResponseEntity<>(couponList, HttpStatus.OK);
+	}
+	
+	
+	@PostMapping("/register")
+	public ResponseEntity<String> addcustomer(@Valid @RequestBody Customer customer) throws UsernameAlreadyExistsException{
+		List<Customer> customerlist=customerDao.findAll();
+		for(Customer cust : customerlist) {
+		if(cust.getUserName().equals(customer.getUserName())) {
+			throw new UsernameAlreadyExistsException();	
+		  } 
+	  }
+		pizzaOrderService.addCustomer(customer);
+		return new ResponseEntity<String>("customer added", HttpStatus.OK);
+	}
+	
+	@GetMapping("/getbyid/{Id}")
+	public ResponseEntity<Customer> viewCustomerById(@PathVariable Integer Id) throws IDNotFoundException{
+		if(customerDao.existsById(Id)) {
+				return new ResponseEntity<Customer>(pizzaOrderService.viewCustomerById(Id),HttpStatus.OK);
+		}
+		else
+			throw new IDNotFoundException();
+	}
+
+	@DeleteMapping("/delete/{Id}")
+	public ResponseEntity<String> deleteCustomer(@PathVariable("Id") Integer Id) throws IDNotFoundException{
+		if(!customerDao.findById(Id).isPresent()) {
+			throw new IDNotFoundException();
+		}
+		
+		pizzaOrderService.deleteCustomer(Id);
+		return new ResponseEntity<String>("deleted...", HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateCustomer")
+	public ResponseEntity<String> updateCustomer(@Valid @RequestParam int customerId, @RequestBody Customer customer) throws IDNotFoundException{
+		if(customerDao.existsById(customer.getCustomerId())) {
+			String str=pizzaOrderService.updateCustomer(customerId,customer);
+			return new ResponseEntity<String>(str,HttpStatus.OK);
+		}
+		else
+			throw new IDNotFoundException();
+	}
+	
+	@GetMapping("/getallpizza")
+	public ResponseEntity<List<Pizza>> getAllPizza(){
+		List<Pizza> pizzaList=pizzaOrderService.viewPizzaList();
+		return new ResponseEntity<List<Pizza>>(pizzaList,HttpStatus.OK);
 	}
 	
 	

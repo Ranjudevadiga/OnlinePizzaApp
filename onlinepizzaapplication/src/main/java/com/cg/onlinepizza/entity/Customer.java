@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 
 
@@ -18,16 +21,25 @@ public class Customer {
 	@Column
 	private int customerId;
 	@Column(name="customer_Name")
+	@NotBlank(message="Name cannot not be empty")
 	private String customerName;
+	@Column(name="role")
+	@NotBlank(message="Role cannot not be empty")
+	private String role;
 	@Column(name="customer_Mobile")
+	@Digits(integer=10,fraction=0)
 	private Long customerMobile;
 	@Column(name="customer_Email")
+	@Email(message="Must be an email")
 	private String customerEmail;
 	@Column(name="customer_Address")
+	@NotBlank(message="Address cannot not be empty")
 	private String customerAddress;
 	@Column(name="Username")
+	@NotBlank(message="Username cannot not be empty")
 	private String userName;
 	@Column(name="Password")
+	@NotBlank(message="Password cannot not be empty")
 	private String password;
 	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
 	private List<CustomerOrder> order;

@@ -19,20 +19,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.onlinepizza.dao.CouponDao;
+import com.cg.onlinepizza.dao.CustomerDao;
+import com.cg.onlinepizza.dao.PizzaDao;
 import com.cg.onlinepizza.dto.CouponDto;
 import com.cg.onlinepizza.entity.Coupon;
-import com.cg.onlinepizza.service.CouponService;
+import com.cg.onlinepizza.entity.Customer;
+import com.cg.onlinepizza.entity.Pizza;
+import com.cg.onlinepizza.service.AdminService;
 import com.cg.onlinepizza.utils.CouponDoesNotExistsException;
 import com.cg.onlinepizza.utils.ListEmptyException;
+import com.cg.onlinepizza.utils.ListIsEmptyException;
+import com.cg.onlinepizza.utils.PizzaIdNotFoundException;
 
 @CrossOrigin(origins="http://localhost:8081")
 @RestController
 @RequestMapping("/Admin")
 public class AdminController {
 	@Autowired
-	CouponService couponService;
+	AdminService couponService;
 	@Autowired
 	CouponDao couponDao;
+	
+	 @Autowired
+		CustomerDao customerDao;
+	    @Autowired
+	   	PizzaDao pizzaDao;
+	    @Autowired
+	  	AdminService adminservice;
 	@PostMapping("/addCoupon")
 	public ResponseEntity<String> addCoupon(@Valid @RequestBody CouponDto couponDto){
 		couponService.addCoupans(couponDto);
@@ -68,4 +81,45 @@ public class AdminController {
 			throw new CouponDoesNotExistsException();
 
 }
+	 @PostMapping("/addpizza")	
+		public ResponseEntity<String> addPizza(@Valid @RequestBody Pizza pizza){
+	    	adminservice.addPizza(pizza);
+			return new ResponseEntity<String>("Pizza Added",HttpStatus.OK);
+		}
+	    
+		@GetMapping("/getallpizza")
+		public ResponseEntity<List<Pizza>> getAllPizza(){
+			List<Pizza> pizzaList=adminservice.viewPizzaList();
+			return new ResponseEntity<List<Pizza>>(pizzaList,HttpStatus.OK);
+		}
+		
+		@DeleteMapping("/deletepizza/{pizzaId}")
+		public ResponseEntity<String> deletePizza(@PathVariable("pizzaId")int pizza_id) throws PizzaIdNotFoundException{
+			if(!pizzaDao.findById(pizza_id).isPresent()) {
+				throw new PizzaIdNotFoundException();
+			}
+			String str=adminservice.deletePizza(pizza_id);
+			return new ResponseEntity<String>(str,HttpStatus.OK);
+		}
+		
+	    
+		@GetMapping("/getallcustomer")
+	    public ResponseEntity<List<Customer>> viewCustomer()  throws ListIsEmptyException{
+	    	List<Customer> customers = customerDao.findAll();
+	    	if(customers.isEmpty()) {
+	    		throw new ListIsEmptyException();
+	    	}
+	    	else
+	    		return new ResponseEntity<List<Customer>>(adminservice.viewCustomer(),HttpStatus.OK);
+	    }
+	    
+	    
+	    @PutMapping("/updatepizza/{pizzaId}")
+		public ResponseEntity<String> updatePizza(@Valid @PathVariable int pizzaId,@RequestBody Pizza pizza) throws PizzaIdNotFoundException{
+	    	if(pizzaDao.existsById(pizza.getPizzaId())) {
+	    		String str=adminservice.updatePizza(pizzaId, pizza);
+	    		return new ResponseEntity<String>(str,HttpStatus.OK);
+	    	}
+	    	else throw new PizzaIdNotFoundException();
+	    }
 }

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Pizza {
@@ -16,11 +17,15 @@ public class Pizza {
 	@Column
 	private int pizzaId;
 	@Column(name="Pizza_Type")
+	@NotBlank(message="Pizza Type cannot not be empty")
 	private String pizzaType;
+	@NotBlank(message="Pizza Size cannot not be empty")
 	private String pizzaSize;
 	@Column(name="Pizza_Name")
+	@NotBlank(message="Pizza Name cannot not be empty")
 	private String pizzaName;
 	@Column(name="Pizza_Description")
+	@NotBlank(message="Pizza Decription cannot not be empty")
 	private String pizzaDescription;
 	@Column(name="Pizza_Cost")
 	private double pizzaCost;

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.cg.onlinepizza.dto.PizzaOrderDTO;
 import com.cg.onlinepizza.entity.Coupon;
+import com.cg.onlinepizza.entity.Customer;
 import com.cg.onlinepizza.entity.Pizza;
 import com.cg.onlinepizza.entity.PizzaOrder;
 
@@ -26,4 +27,12 @@ public interface IPizzaOrderService {
 	List<Pizza> viewPizzaByPrice(double min,double max);
 	
 	List<Coupon> viewCoupons();
+	
+	
+	public void addCustomer(Customer customer);
+	public String updateCustomer(int customerId,Customer customer);
+	public boolean deleteCustomer(Integer customerId);
+	public Customer viewCustomerById(Integer customerId);
+	public List<Pizza> viewPizzaList();
+	
 }
