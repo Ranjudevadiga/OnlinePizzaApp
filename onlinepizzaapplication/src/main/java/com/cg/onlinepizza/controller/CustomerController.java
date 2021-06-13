@@ -1,13 +1,10 @@
 package com.cg.onlinepizza.controller;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,8 +21,10 @@ import com.cg.onlinepizza.dao.CouponDao;
 import com.cg.onlinepizza.dao.PizzaDao;
 import com.cg.onlinepizza.dao.PizzaOrderDao;
 import com.cg.onlinepizza.dto.PizzaOrderDTO;
+import com.cg.onlinepizza.entity.Coupon;
 import com.cg.onlinepizza.entity.Pizza;
 import com.cg.onlinepizza.entity.PizzaOrder;
+import com.cg.onlinepizza.service.CouponService;
 import com.cg.onlinepizza.service.PizzaOrderService;
 import com.cg.onlinepizza.utils.BookingOrderIdDoesNotExists;
 import com.cg.onlinepizza.utils.ListEmptyException;
@@ -94,6 +93,14 @@ public class CustomerController {
 		}else {
 			throw new PriceException();
 		}
+	}
+	@GetMapping("/viewCoupons")
+	public ResponseEntity<List <Coupon>> viewCoupons(){
+		List<Coupon> couponList = pizzaOrderService.viewCoupons();
+		if(couponList.isEmpty())
+			throw new ListEmptyException();
+		else	
+			return new ResponseEntity<>(couponList, HttpStatus.OK);
 	}
 	
 	

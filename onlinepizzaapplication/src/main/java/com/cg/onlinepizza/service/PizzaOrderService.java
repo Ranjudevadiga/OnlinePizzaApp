@@ -178,7 +178,14 @@ public class PizzaOrderService implements IPizzaOrderService{
 		return pizza;
 	}
 
-	
-	
+	@Override
+	public List<Coupon> viewCoupons() {
+		
+		List<Coupon> couponList =couponDao.findAll();
+		if(couponList.isEmpty()) 
+			return null; 
+		else 
+			return couponList;
 
+}
 }

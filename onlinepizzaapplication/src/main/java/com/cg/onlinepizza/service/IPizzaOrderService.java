@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.cg.onlinepizza.dto.PizzaOrderDTO;
+import com.cg.onlinepizza.entity.Coupon;
 import com.cg.onlinepizza.entity.Pizza;
 import com.cg.onlinepizza.entity.PizzaOrder;
 
@@ -23,4 +24,6 @@ public interface IPizzaOrderService {
 	double caluculateTotal(int pizzaId,String couponName,double price, int quantity);
 	
 	List<Pizza> viewPizzaByPrice(double min,double max);
+	
+	List<Coupon> viewCoupons();
 }
