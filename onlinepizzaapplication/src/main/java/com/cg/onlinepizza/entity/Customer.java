@@ -46,6 +46,12 @@ public class Customer {
 	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
 	private List<PizzaOrder> pizzaOrder;
 	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 	public List<CustomerOrder> getOrder() {
 		return order;
 	}
@@ -56,7 +62,7 @@ public class Customer {
 		super();
 	}
 	public Customer(int customerId, String customerName, Long customerMobile, String customerEmail,
-			String customerAddress, String userName, String password) {
+			String customerAddress, String userName, String password,String role) {
 		super();
 		this.customerId = customerId;
 		this.customerName = customerName;
@@ -65,6 +71,7 @@ public class Customer {
 		this.customerAddress = customerAddress;
 		this.userName = userName;
 		this.password = password;
+		this.role=role;
 	}
 	public int getCustomerId() {
 		return customerId;

@@ -22,7 +22,7 @@ public class AdminService implements IAdminService{
 	CouponDao couponDao;
 	@Autowired
 	PizzaDao pizzaDao;
-	
+	@Autowired
 	CustomerDao customerDao;
 
 	@Override
