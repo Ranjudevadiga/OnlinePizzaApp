@@ -38,6 +38,8 @@ import com.cg.onlinepizza.utils.PizzaNotFoundInRangeException;
 import com.cg.onlinepizza.utils.PizzaTypeNotFoundException;
 import com.cg.onlinepizza.utils.PriceException;
 import com.cg.onlinepizza.utils.EmailAlreadyExistsException;
+
+
 @CrossOrigin(origins = "http://localhost:3002")
 @RestController
 @RequestMapping("/Customer")
@@ -51,9 +53,15 @@ public class CustomerController {
 	PizzaDao pizzaDao;
 	@Autowired
 	PizzaOrderDao orderDao; 
+	@Autowired
+	CustomerDao customerDao;
 	
-	  @Autowired
-		CustomerDao customerDao;
+	
+	/**
+	 * 
+	 * @param pizzaOrderDto
+	 * @return
+	 */
 	@PostMapping("/order")
 	public ResponseEntity<PizzaOrder> bookPizzaOrder(@Valid @RequestBody PizzaOrderDTO pizzaOrderDto){
 		if(!pizzaDao.findById(pizzaOrderDto.getPizzaId()).isPresent()) {
@@ -63,6 +71,12 @@ public class CustomerController {
 			return new ResponseEntity<PizzaOrder>(order, HttpStatus.OK);
 		}
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/cancel/{id}")
 	public ResponseEntity<String> cancelPizza(@PathVariable int id) {
 		if(!orderDao.findById(id).isPresent())
@@ -73,6 +87,12 @@ public class CustomerController {
 		pizzaOrderService.cancelPizzaOrder(id);
 		return new ResponseEntity<>("Successfully cancelled", HttpStatus.OK);
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/viewPizzaOrder/{id}")
 	public ResponseEntity <PizzaOrder> getPizzaOrderById(@PathVariable int id) {
 		if(!orderDao.findById(id).isPresent())
@@ -82,11 +102,24 @@ public class CustomerController {
 		PizzaOrder order=pizzaOrderService.viewPizzaOrder(id);
 		return new ResponseEntity<PizzaOrder>(order, HttpStatus.OK);
 	}
+	
+	
+	/**
+	 * 
+	 * @param orderDto
+	 * @return
+	 */
 	@PutMapping("/updateOrder")
 	public ResponseEntity<String> updatePolicy( @RequestBody PizzaOrderDTO orderDto) {
 		pizzaOrderService.updatePizzaOrder(orderDto);
 		return new ResponseEntity<>("Order Updated", HttpStatus.OK);
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/viewCustomerOrders/{id}")
 	public ResponseEntity <List<PizzaOrder>> viewCustomerOrders(@PathVariable int id) {
 		List<PizzaOrder> order=pizzaOrderService.viewOrderList(id);
@@ -94,6 +127,13 @@ public class CustomerController {
 		return new ResponseEntity<List<PizzaOrder>>(order, HttpStatus.OK);
 	}
 	
+	/**
+	 * 
+	 * @param min
+	 * @param max
+	 * @return
+	 * @throws PizzaNotFoundInRangeException
+	 */
 	@GetMapping("/viewPizzaBySorting/{min}/{max}")
 	public ResponseEntity <List<Pizza>> viewPizzaByCost(@PathVariable double min,@PathVariable double max) throws PizzaNotFoundInRangeException {
 		if(min<max) {
@@ -105,6 +145,12 @@ public class CustomerController {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param pizza
+	 * @return
+	 * @throws PizzaTypeNotFoundException
+	 */
 	@GetMapping("/viewPizzaByType")
 	public ResponseEntity <List<Pizza>> viewPizzaByType(@RequestBody Pizza pizza) throws PizzaTypeNotFoundException {
 			List<Pizza> pizzaList=pizzaOrderService.viewPizzaByType(pizza);
@@ -113,7 +159,10 @@ public class CustomerController {
 		
 	}
 	
-	
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping("/viewCoupons")
 	public ResponseEntity<List <Coupon>> viewCoupons(){
 		List<Coupon> couponList = pizzaOrderService.viewCoupons();
@@ -123,7 +172,12 @@ public class CustomerController {
 			return new ResponseEntity<>(couponList, HttpStatus.OK);
 	}
 	
-	
+	/**
+	 * 
+	 * @param customer
+	 * @return
+	 * @throws EmailAlreadyExistsException
+	 */
 	@PostMapping("/register")
 	public ResponseEntity<String> addcustomer(@Valid @RequestBody Customer customer) throws EmailAlreadyExistsException{
 		List<Customer> customerlist=customerDao.findAll();
@@ -136,6 +190,13 @@ public class CustomerController {
 		return new ResponseEntity<String>("customer added", HttpStatus.OK);
 	}
 	
+	
+	/**
+	 * 
+	 * @param Id
+	 * @return
+	 * @throws IDNotFoundException
+	 */
 	@GetMapping("/getbyid/{Id}")
 	public ResponseEntity<Customer> viewCustomerById(@PathVariable Integer Id) throws IDNotFoundException{
 		if(customerDao.existsById(Id)) {
@@ -145,6 +206,13 @@ public class CustomerController {
 			throw new IDNotFoundException();
 	}
 
+	
+	/**
+	 * 
+	 * @param Id
+	 * @return
+	 * @throws IDNotFoundException
+	 */
 	@DeleteMapping("/delete/{Id}")
 	public ResponseEntity<String> deleteCustomer(@PathVariable("Id") Integer Id) throws IDNotFoundException{
 		if(!customerDao.findById(Id).isPresent()) {
@@ -155,6 +223,14 @@ public class CustomerController {
 		return new ResponseEntity<String>("deleted...", HttpStatus.OK);
 	}
 	
+	
+	/**
+	 * 
+	 * @param customerId
+	 * @param customer
+	 * @return
+	 * @throws IDNotFoundException
+	 */
 	@PutMapping("/updateCustomer")
 	public ResponseEntity<String> updateCustomer(@Valid @RequestParam int customerId, @RequestBody Customer customer) throws IDNotFoundException{
 		if(customerDao.existsById(customer.getCustomerId())) {
@@ -165,12 +241,21 @@ public class CustomerController {
 			throw new IDNotFoundException();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping("/getallpizza")
 	public ResponseEntity<List<Pizza>> getAllPizza(){
 		List<Pizza> pizzaList=pizzaOrderService.viewPizzaList();
 		return new ResponseEntity<List<Pizza>>(pizzaList,HttpStatus.OK);
 	}
 	
+	/**
+	 * 
+	 * @param login
+	 * @return
+	 */
 	@PostMapping("/validate")
 	public ResponseEntity<Customer> validate(@RequestBody Customer login)
 	{
@@ -182,6 +267,12 @@ public class CustomerController {
 		return new ResponseEntity<Customer>(customer,HttpStatus.OK);
 	}
 	
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/viewCurrentOrders/{id}")
 	public ResponseEntity <List<PizzaOrder>> viewCurrentOrders(@PathVariable int id) {
 		List<PizzaOrder> order=pizzaOrderService.viewCurrentorder(id);

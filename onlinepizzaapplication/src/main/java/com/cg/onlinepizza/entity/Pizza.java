@@ -10,6 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
+/**
+ * 
+ * @author Varun
+ *
+ */
+
 @Entity
 public class Pizza {
 	@Id
@@ -42,6 +48,8 @@ public class Pizza {
 	/*public List<Coupon> getCoupon() {
 		return coupon;
 	}*/
+	
+	
 	public void setCoupon(List<Coupon> coupon) {
 		this.coupon = coupon;
 	}
@@ -81,6 +89,16 @@ public class Pizza {
 	public void setPizzaSize(String pizzaSize) {
 		this.pizzaSize = pizzaSize;
 	}
+	
+	/**
+	 * 
+	 * @param pizzaId
+	 * @param pizzaType
+	 * @param pizzaName
+	 * @param pizzaDescription
+	 * @param pizzaCost
+	 * @param pizzaSize
+	 */
 	public Pizza(int pizzaId, String pizzaType, String pizzaName, String pizzaDescription, double pizzaCost,String pizzaSize) {
 		super();
 		this.pizzaId = pizzaId;

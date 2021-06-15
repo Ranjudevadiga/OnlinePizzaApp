@@ -9,7 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-
+/**
+ * 
+ * @author Ranjith
+ *
+ */
 
 @Entity
 public class CustomerOrder {
@@ -24,6 +28,16 @@ public class CustomerOrder {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="bookingOrderId")
 	private PizzaOrder pizzaOrder;
+	
+	
+	/**
+	 * 
+	 * @param orderId
+	 * @param pizzaName
+	 * @param pizzaDescription
+	 * @param customer
+	 * @param pizzaOrder
+	 */
 	public CustomerOrder(int orderId, String pizzaName, String pizzaDescription, Customer customer,
 			PizzaOrder pizzaOrder) {
 		super();
@@ -33,6 +47,9 @@ public class CustomerOrder {
 		this.customer = customer;
 		this.pizzaOrder = pizzaOrder;
 	}
+	
+	
+	
 	public PizzaOrder getPizzaOrder() {
 		return pizzaOrder;
 	}

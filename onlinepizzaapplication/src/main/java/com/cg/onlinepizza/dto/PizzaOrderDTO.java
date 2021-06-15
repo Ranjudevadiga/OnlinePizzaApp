@@ -6,6 +6,11 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Range;
 
+/**
+ * 
+ * @author Ranjith
+ *
+ */
 public class PizzaOrderDTO {
 	
 	private int bookingOrderId;
@@ -29,6 +34,20 @@ public class PizzaOrderDTO {
 	public PizzaOrderDTO() {
 		super();
 		}
+	
+	/**
+	 * 
+	 * @param bookingOrderId
+	 * @param dateOfOrder
+	 * @param totalCost
+	 * @param pizzaSize
+	 * @param pizzaQuantity
+	 * @param transactionMode
+	 * @param couponName
+	 * @param pizzaId
+	 * @param customerId
+	 * @param status
+	 */
 	public PizzaOrderDTO(int bookingOrderId, LocalDate dateOfOrder, double totalCost, String pizzaSize,
 			int pizzaQuantity, String transactionMode, String couponName, int pizzaId,int customerId,String status) {
 		super();
@@ -43,6 +62,8 @@ public class PizzaOrderDTO {
 		this.customerId=customerId;
 		this.status=status;
 	}
+	
+	
 	public int getBookingOrderId() {
 		return bookingOrderId;
 	}

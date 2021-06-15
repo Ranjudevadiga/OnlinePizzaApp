@@ -6,6 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import com.cg.onlinepizza.entity.Customer;
 
+/**
+ * 
+ * @author Shashank
+ *
+ */
 
 @Repository
 public interface CustomerDao extends JpaRepository<Customer, Integer>{

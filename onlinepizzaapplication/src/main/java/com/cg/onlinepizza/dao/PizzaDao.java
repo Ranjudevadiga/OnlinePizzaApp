@@ -7,6 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cg.onlinepizza.entity.Pizza;
+
+/**
+ * 
+ * @author Varun
+ *
+ */
 @Repository
 public interface PizzaDao extends JpaRepository<Pizza, Integer>{
 	@Query(value="from Pizza pizza where pizza.pizzaId=?1")

@@ -32,6 +32,8 @@ public class PizzaOrderService implements IPizzaOrderService{
 	@Autowired
 	CustomerDao customerDao;
 
+	
+	//Book Pizza Order
 	@Override
 	public PizzaOrder bookPizzaOrder(PizzaOrderDTO orderDto) {
 		
@@ -78,6 +80,7 @@ public class PizzaOrderService implements IPizzaOrderService{
 		
 	}
 
+	//Update pizza order
 	@Override
 	public PizzaOrder updatePizzaOrder(PizzaOrderDTO orderDto) {
 		LocalDate date=LocalDate.now();
@@ -116,13 +119,16 @@ public class PizzaOrderService implements IPizzaOrderService{
 		}
 	
 	
-
+	//Cancel pizza order
 	@Override
 	public List<PizzaOrder> cancelPizzaOrder(int orderId) {
 		pizzaOrderDao.deleteById(orderId);
 		return pizzaOrderDao.findAll();
 	}
-
+	
+	
+	
+	//View a pizza order
 	@Override
 	public PizzaOrder viewPizzaOrder(int orderId) {
 		return pizzaOrderDao.getPizzaOrderById(orderId);
@@ -130,7 +136,7 @@ public class PizzaOrderService implements IPizzaOrderService{
 	}
 
 	
-
+	//Total calculation
 	@Override
 	public double caluculateTotal(int pizzaId, String couponName, double price, int quantity) {
 		Coupon coupon= couponDao.getByCouponName(couponName);
@@ -168,21 +174,23 @@ public class PizzaOrderService implements IPizzaOrderService{
 		return gross;
 		
 	}
-
+	
+	//View Orders of a particular customer
 	@Override
 	public List<PizzaOrder> viewOrderList(int customerId) {
 		return pizzaOrderDao.getPizzaOrderByCustomerId(customerId);
 	}
 
+	//Sort pizza by price
 	@Override
 	public List<Pizza> viewPizzaByPrice(double min, double max) {
 		List<Pizza> pizza=pizzaDao.sortByPrice(min, max);
 		return pizza;
 	}
-
+	
+	//View All Coupans
 	@Override
 	public List<Coupon> viewCoupons() {
-		
 		List<Coupon> couponList =couponDao.findAll();
 		if(couponList.isEmpty()) 
 			return null; 
@@ -190,6 +198,7 @@ public class PizzaOrderService implements IPizzaOrderService{
 			return couponList;
 		}
 	
+	//Customer registration
 	@Override
 	public void addCustomer(Customer customer)  {
 		 customerDao.save(customer);
@@ -219,13 +228,14 @@ public class PizzaOrderService implements IPizzaOrderService{
 			return customerDao.getCustomerId(customerId);
 	}
 	
-	
+	//View all the pizza's available
 	@Override
 	public List<Pizza> viewPizzaList() throws PizzaIdNotFoundException {
 		List<Pizza> pizza = pizzaDao.findAll();
 		return pizza;
 	}
 
+	//Login validation
 	@Override
 	public Customer validate(String email, String password) {
 		Customer login=customerDao.validate(email,password);
@@ -233,12 +243,14 @@ public class PizzaOrderService implements IPizzaOrderService{
 		return login;
 	}
 
+	//View current order
 	@Override
 	public List<PizzaOrder> viewCurrentorder(int id) {
 		
 		return pizzaOrderDao.getCurrentOrders(id);
 	}
 
+	//Sort pizza by size
 	@Override
 	public List<Pizza> viewPizzaByType(Pizza pizza) {
 		List<Pizza> pizzaList=pizzaDao.sortByType(pizza.getPizzaType());

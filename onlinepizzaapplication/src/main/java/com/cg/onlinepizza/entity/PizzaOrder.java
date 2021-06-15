@@ -14,7 +14,11 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 
 
-
+/**
+ * 
+ * @author Ranjith
+ *
+ */
 @Entity
 public class PizzaOrder {
 	@Id
@@ -26,12 +30,9 @@ public class PizzaOrder {
 	private String status;
 	private int pizzaQuantity;
 	private String transactionMode;
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
+
+	
+	
 	public PizzaOrder(int bookingOrderId, LocalDate dateOfOrder, double totalCost, String pizzaSize, int pizzaQuantity,
 			String transactionMode, Pizza pizza, Coupon coupon,Customer customer,String status) {
 		super();
@@ -45,6 +46,13 @@ public class PizzaOrder {
 		this.coupon = coupon;
 		this.customer=customer;
 		this.status=status;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public String getPizzaSize() {
 		return pizzaSize;

@@ -12,7 +12,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 
-
+/**
+ * 
+ * @author Mahalasa
+ *
+ */
 @Entity
 public class Coupon {
 	@Id
@@ -35,6 +39,7 @@ public class Coupon {
 	public void setPizzaorder(List<PizzaOrder> pizzaorder) {
 		this.pizzaorder = pizzaorder;
 	}
+	
 	
 	public int getCouponId() {
 		return couponId;
@@ -60,9 +65,25 @@ public class Coupon {
 	public void setCouponDescription(String couponDescription) {
 		this.couponDescription = couponDescription;
 	}
+	public Pizza getPizza() {
+		return pizza;
+	}
+	public void setPizza(Pizza pizza) {
+		this.pizza = pizza;
+	}
+	
 	public Coupon() {
 		super();
 	}
+	
+	/**
+	 * 
+	 * @param couponId
+	 * @param couponName
+	 * @param discountValue
+	 * @param couponDescription
+	 * @param pizza
+	 */
 	
 	public Coupon(int couponId, String couponName, int discountValue, String couponDescription, Pizza pizza) {
 		super();
@@ -72,12 +93,7 @@ public class Coupon {
 		this.couponDescription = couponDescription;
 		this.pizza = pizza;
 	}
-	public Pizza getPizza() {
-		return pizza;
-	}
-	public void setPizza(Pizza pizza) {
-		this.pizza = pizza;
-	}
+	
 	
 
 }
