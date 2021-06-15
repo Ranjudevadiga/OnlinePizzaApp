@@ -14,6 +14,7 @@ import com.cg.onlinepizza.dto.CouponDto;
 import com.cg.onlinepizza.entity.Coupon;
 import com.cg.onlinepizza.entity.Customer;
 import com.cg.onlinepizza.entity.Pizza;
+import com.cg.onlinepizza.entity.PizzaOrder;
 import com.cg.onlinepizza.utils.PizzaIdNotFoundException;
 
 @Service
@@ -24,6 +25,9 @@ public class AdminService implements IAdminService{
 	PizzaDao pizzaDao;
 	@Autowired
 	CustomerDao customerDao;
+	@Autowired
+	PizzaOrderDao pizzaOrderDao;
+	
 
 	@Override
 	public void addCoupans(CouponDto couponDto) {
@@ -113,6 +117,36 @@ public class AdminService implements IAdminService{
 		public List<Pizza> viewPizzaList() throws PizzaIdNotFoundException {
 			List<Pizza> pizza = pizzaDao.findAll();
 			return pizza;
+		}
+
+		@Override
+		public List<PizzaOrder> viewPizzaOrders() {
+		List<PizzaOrder> order=pizzaOrderDao.findAll();
+		return order;
+		}
+
+		@Override
+		public PizzaOrder acceptOrder(int orderId) {
+			PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderId);
+			order.setStatus("Accepted");
+			pizzaOrderDao.save(order);
+			return order;
+		}
+
+		@Override
+		public PizzaOrder cancelOrder(int orderId) {
+			PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderId);
+			order.setStatus("Cancelled");
+			pizzaOrderDao.save(order);
+			return order;
+		}
+
+		@Override
+		public PizzaOrder delivered(int orderId) {
+			PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderId);
+			order.setStatus("Delivered");
+			pizzaOrderDao.save(order);
+			return order;
 		}
 
 }

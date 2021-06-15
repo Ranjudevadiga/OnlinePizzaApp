@@ -23,11 +23,17 @@ public class PizzaOrder {
 	private LocalDate dateOfOrder;
 	private double totalCost;
 	private String pizzaSize;
-	
+	private String status;
 	private int pizzaQuantity;
 	private String transactionMode;
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public PizzaOrder(int bookingOrderId, LocalDate dateOfOrder, double totalCost, String pizzaSize, int pizzaQuantity,
-			String transactionMode, Pizza pizza, Coupon coupon,Customer customer) {
+			String transactionMode, Pizza pizza, Coupon coupon,Customer customer,String status) {
 		super();
 		this.bookingOrderId = bookingOrderId;
 		this.dateOfOrder = dateOfOrder;
@@ -38,6 +44,7 @@ public class PizzaOrder {
 		this.pizza = pizza;
 		this.coupon = coupon;
 		this.customer=customer;
+		this.status=status;
 	}
 	public String getPizzaSize() {
 		return pizzaSize;

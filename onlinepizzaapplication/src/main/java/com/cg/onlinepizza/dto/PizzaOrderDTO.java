@@ -12,19 +12,25 @@ public class PizzaOrderDTO {
 	private LocalDate dateOfOrder;
 	private double totalCost;
 	private String pizzaSize;
+	private String status;
 	@Range(min=1,message="Quantity cannot be empty")
 	private int pizzaQuantity;
 	@NotBlank(message="Transaction Mode could not be empty")
-
 	private String transactionMode;
 	private String couponName;
 	private int pizzaId;
 	private int customerId;
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public PizzaOrderDTO() {
 		super();
 		}
 	public PizzaOrderDTO(int bookingOrderId, LocalDate dateOfOrder, double totalCost, String pizzaSize,
-			int pizzaQuantity, String transactionMode, String couponName, int pizzaId,int customerId) {
+			int pizzaQuantity, String transactionMode, String couponName, int pizzaId,int customerId,String status) {
 		super();
 		this.bookingOrderId = bookingOrderId;
 		this.dateOfOrder = dateOfOrder;
@@ -35,6 +41,7 @@ public class PizzaOrderDTO {
 		this.couponName = couponName;
 		this.pizzaId = pizzaId;
 		this.customerId=customerId;
+		this.status=status;
 	}
 	public int getBookingOrderId() {
 		return bookingOrderId;

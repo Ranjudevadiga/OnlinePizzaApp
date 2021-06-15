@@ -6,6 +6,7 @@ import com.cg.onlinepizza.dto.CouponDto;
 import com.cg.onlinepizza.entity.Coupon;
 import com.cg.onlinepizza.entity.Customer;
 import com.cg.onlinepizza.entity.Pizza;
+import com.cg.onlinepizza.entity.PizzaOrder;
 
 public interface IAdminService {
 	void addCoupans(CouponDto couponDto);
@@ -21,4 +22,8 @@ public interface IAdminService {
 	public String updatePizza(int pizzaId, Pizza pizza);
 	public String deletePizza(int pizzaId);
 	public List<Pizza> viewPizzaList();
+	public List<PizzaOrder> viewPizzaOrders();
+	public PizzaOrder acceptOrder(int orderId);
+	public PizzaOrder cancelOrder(int orderId);
+	public PizzaOrder delivered(int orderId); 
 }

@@ -26,6 +26,8 @@ public interface IPizzaOrderService {
 	
 	List<Pizza> viewPizzaByPrice(double min,double max);
 	
+	List<Pizza> viewPizzaByType(Pizza pizza);
+	
 	List<Coupon> viewCoupons();
 	
 	
@@ -34,5 +36,6 @@ public interface IPizzaOrderService {
 	public boolean deleteCustomer(Integer customerId);
 	public Customer viewCustomerById(Integer customerId);
 	public List<Pizza> viewPizzaList();
-	
+	Customer validate(String email, String password);
+	public List<PizzaOrder> viewCurrentorder(int id);
 }

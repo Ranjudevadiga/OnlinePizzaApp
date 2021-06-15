@@ -11,4 +11,7 @@ import com.cg.onlinepizza.entity.Customer;
 public interface CustomerDao extends JpaRepository<Customer, Integer>{
 	@Query(value="from Customer customer where customer.customerId=?1")
 	public Customer getCustomerId(int id);
+	
+	@Query(value="from Customer login where login.customerEmail=?1 and login.password=?2")
+	public Customer validate(String email,String password);
 }

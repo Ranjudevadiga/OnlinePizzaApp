@@ -35,9 +35,6 @@ public class Customer {
 	@Column(name="customer_Address")
 	@NotBlank(message="Address cannot not be empty")
 	private String customerAddress;
-	@Column(name="Username")
-	@NotBlank(message="Username cannot not be empty")
-	private String userName;
 	@Column(name="Password")
 	@NotBlank(message="Password cannot not be empty")
 	private String password;
@@ -52,24 +49,23 @@ public class Customer {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public List<CustomerOrder> getOrder() {
+	/*public List<CustomerOrder> getOrder() {
 		return order;
 	}
 	public void setOrder(List<CustomerOrder> order) {
 		this.order = order;
-	}
+	}*/
 	public Customer() {
 		super();
 	}
 	public Customer(int customerId, String customerName, Long customerMobile, String customerEmail,
-			String customerAddress, String userName, String password,String role) {
+			String customerAddress, String password,String role) {
 		super();
 		this.customerId = customerId;
 		this.customerName = customerName;
 		this.customerMobile = customerMobile;
 		this.customerEmail = customerEmail;
 		this.customerAddress = customerAddress;
-		this.userName = userName;
 		this.password = password;
 		this.role=role;
 	}
@@ -102,12 +98,6 @@ public class Customer {
 	}
 	public void setCustomerAddress(String customerAddress) {
 		this.customerAddress = customerAddress;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 	public String getPassword() {
 		return password;

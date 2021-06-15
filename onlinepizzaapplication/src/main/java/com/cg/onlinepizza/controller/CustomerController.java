@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,12 +31,14 @@ import com.cg.onlinepizza.entity.PizzaOrder;
 import com.cg.onlinepizza.service.PizzaOrderService;
 import com.cg.onlinepizza.utils.BookingOrderIdDoesNotExists;
 import com.cg.onlinepizza.utils.IDNotFoundException;
+import com.cg.onlinepizza.utils.InvalidUserException;
 import com.cg.onlinepizza.utils.ListEmptyException;
 import com.cg.onlinepizza.utils.PizzaNotFoundException;
 import com.cg.onlinepizza.utils.PizzaNotFoundInRangeException;
+import com.cg.onlinepizza.utils.PizzaTypeNotFoundException;
 import com.cg.onlinepizza.utils.PriceException;
-import com.cg.onlinepizza.utils.UsernameAlreadyExistsException;
-
+import com.cg.onlinepizza.utils.EmailAlreadyExistsException;
+@CrossOrigin(origins = "http://localhost:3002")
 @RestController
 @RequestMapping("/Customer")
 @Validated
@@ -82,7 +85,7 @@ public class CustomerController {
 	@PutMapping("/updateOrder")
 	public ResponseEntity<String> updatePolicy( @RequestBody PizzaOrderDTO orderDto) {
 		pizzaOrderService.updatePizzaOrder(orderDto);
-		return new ResponseEntity<>("Policy Updated", HttpStatus.OK);
+		return new ResponseEntity<>("Order Updated", HttpStatus.OK);
 	}
 	@GetMapping("/viewCustomerOrders/{id}")
 	public ResponseEntity <List<PizzaOrder>> viewCustomerOrders(@PathVariable int id) {
@@ -101,6 +104,16 @@ public class CustomerController {
 			throw new PriceException();
 		}
 	}
+	
+	@GetMapping("/viewPizzaByType")
+	public ResponseEntity <List<Pizza>> viewPizzaByType(@RequestBody Pizza pizza) throws PizzaTypeNotFoundException {
+			List<Pizza> pizzaList=pizzaOrderService.viewPizzaByType(pizza);
+			if(pizzaList.size()<=0) throw new PizzaTypeNotFoundException();
+			return new ResponseEntity<List<Pizza>>(pizzaList, HttpStatus.OK);
+		
+	}
+	
+	
 	@GetMapping("/viewCoupons")
 	public ResponseEntity<List <Coupon>> viewCoupons(){
 		List<Coupon> couponList = pizzaOrderService.viewCoupons();
@@ -112,11 +125,11 @@ public class CustomerController {
 	
 	
 	@PostMapping("/register")
-	public ResponseEntity<String> addcustomer(@Valid @RequestBody Customer customer) throws UsernameAlreadyExistsException{
+	public ResponseEntity<String> addcustomer(@Valid @RequestBody Customer customer) throws EmailAlreadyExistsException{
 		List<Customer> customerlist=customerDao.findAll();
 		for(Customer cust : customerlist) {
-		if(cust.getUserName().equals(customer.getUserName())) {
-			throw new UsernameAlreadyExistsException();	
+		if(cust.getCustomerEmail().equals(customer.getCustomerEmail())) {
+			throw new EmailAlreadyExistsException();	
 		  } 
 	  }
 		pizzaOrderService.addCustomer(customer);
@@ -158,6 +171,22 @@ public class CustomerController {
 		return new ResponseEntity<List<Pizza>>(pizzaList,HttpStatus.OK);
 	}
 	
+	@PostMapping("/validate")
+	public ResponseEntity<Customer> validate(@RequestBody Customer login)
+	{
+		if(customerDao.validate(login.getCustomerEmail(),login.getPassword())==null)
+	{
+		throw new InvalidUserException();
+	}
+		Customer customer=pizzaOrderService.validate(login.getCustomerEmail(),login.getPassword());
+		return new ResponseEntity<Customer>(customer,HttpStatus.OK);
+	}
 	
+	@GetMapping("/viewCurrentOrders/{id}")
+	public ResponseEntity <List<PizzaOrder>> viewCurrentOrders(@PathVariable int id) {
+		List<PizzaOrder> order=pizzaOrderService.viewCurrentorder(id);
+		if(order.size()<=0) throw new ListEmptyException();
+		return new ResponseEntity<List<PizzaOrder>>(order, HttpStatus.OK);
+	}
 
 } 

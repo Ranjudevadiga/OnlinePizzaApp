@@ -15,7 +15,7 @@ public interface PizzaDao extends JpaRepository<Pizza, Integer>{
 	@Query(value="from Pizza pizza where pizza.pizzaCost between ?1 and ?2")
 	public List<Pizza> sortByPrice(double min,double max);
 
-	@Query(value="from Pizza pizza where pizza.pizzaType Like '?1'")
-	public List<Pizza> sortType(String pizzaType);
+	@Query(value="from Pizza pizza where pizza.pizzaType=?1")
+	public List<Pizza> sortByType(String type);
 
 }

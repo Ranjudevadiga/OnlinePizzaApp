@@ -25,13 +25,15 @@ import com.cg.onlinepizza.dto.CouponDto;
 import com.cg.onlinepizza.entity.Coupon;
 import com.cg.onlinepizza.entity.Customer;
 import com.cg.onlinepizza.entity.Pizza;
+import com.cg.onlinepizza.entity.PizzaOrder;
 import com.cg.onlinepizza.service.AdminService;
+import com.cg.onlinepizza.service.PizzaOrderService;
 import com.cg.onlinepizza.utils.CouponDoesNotExistsException;
 import com.cg.onlinepizza.utils.ListEmptyException;
 import com.cg.onlinepizza.utils.ListIsEmptyException;
 import com.cg.onlinepizza.utils.PizzaIdNotFoundException;
 
-@CrossOrigin(origins="http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:3002")
 @RestController
 @RequestMapping("/Admin")
 public class AdminController {
@@ -46,6 +48,8 @@ public class AdminController {
 	   	PizzaDao pizzaDao;
 	    @Autowired
 	  	AdminService adminservice;
+	    @Autowired
+	    PizzaOrderService pizzaOrderService;
 	@PostMapping("/addCoupon")
 	public ResponseEntity<String> addCoupon(@Valid @RequestBody CouponDto couponDto){
 		couponService.addCoupans(couponDto);
@@ -59,6 +63,14 @@ public class AdminController {
 			throw new ListEmptyException();
 		else	
 			return new ResponseEntity<>(couponList, HttpStatus.OK);
+	}
+	@GetMapping("/viewOrders")
+	public ResponseEntity<List <PizzaOrder>> viewOrders(){
+		List<PizzaOrder> order = adminservice.viewPizzaOrders();
+		if(order.isEmpty())
+			throw new ListEmptyException();
+		else	
+			return new ResponseEntity<>(order, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deletecoupons")
@@ -122,4 +134,27 @@ public class AdminController {
 	    	}
 	    	else throw new PizzaIdNotFoundException();
 	    }
+	    
+	    @PutMapping("/cancelOrder/{id}")
+		public ResponseEntity<PizzaOrder> cancelOrder(@Valid @PathVariable int id,@RequestBody Pizza pizza) {
+	    	PizzaOrder order=adminservice.cancelOrder(id);
+	    		return new ResponseEntity<PizzaOrder>(order,HttpStatus.OK);
+	    }
+	    
+	    
+	    @PutMapping("/acceptOrder/{id}")
+		public ResponseEntity<PizzaOrder> acceptOrder(@Valid @PathVariable int id,@RequestBody Pizza pizza) {
+	    	PizzaOrder order=adminservice.acceptOrder(id);
+	    		return new ResponseEntity<PizzaOrder>(order,HttpStatus.OK);
+	    }
+	    
+	    @PutMapping("/deliver/{id}")
+		public ResponseEntity<PizzaOrder> deliverOrder(@Valid @PathVariable int id,@RequestBody Pizza pizza) {
+	    	PizzaOrder order=adminservice.delivered(id);
+	    		return new ResponseEntity<PizzaOrder>(order,HttpStatus.OK);
+	    }
+	    
+	   
+	    
+	    
 }

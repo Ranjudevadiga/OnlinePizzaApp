@@ -47,6 +47,7 @@ public class PizzaOrderService implements IPizzaOrderService{
 		order.setPizzaQuantity(orderDto.getPizzaQuantity());
 		order.setTransactionMode(orderDto.getTransactionMode());
 		order.setDateOfOrder(todaysDate);
+		order.setStatus("Ordered");
 		System.out.println(coupon);
 		order.setPizzaSize(pizza.getPizzaSize());
 		Customer customer=customerDao.getCustomerId(orderDto.getCustomerId());
@@ -223,6 +224,25 @@ public class PizzaOrderService implements IPizzaOrderService{
 	public List<Pizza> viewPizzaList() throws PizzaIdNotFoundException {
 		List<Pizza> pizza = pizzaDao.findAll();
 		return pizza;
+	}
+
+	@Override
+	public Customer validate(String email, String password) {
+		Customer login=customerDao.validate(email,password);
+
+		return login;
+	}
+
+	@Override
+	public List<PizzaOrder> viewCurrentorder(int id) {
+		
+		return pizzaOrderDao.getCurrentOrders(id);
+	}
+
+	@Override
+	public List<Pizza> viewPizzaByType(Pizza pizza) {
+		List<Pizza> pizzaList=pizzaDao.sortByType(pizza.getPizzaType());
+		return pizzaList;
 	}
 		
 	

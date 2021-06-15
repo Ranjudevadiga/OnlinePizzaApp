@@ -66,9 +66,18 @@ public class ExceptionHandlers {
 		return new ResponseEntity<>("Pizza ID not found",HttpStatus.NOT_FOUND);
 		}
 	
-	@ExceptionHandler(value=UsernameAlreadyExistsException.class)
-	public ResponseEntity<Object> exception( UsernameAlreadyExistsException exception){
-		return new ResponseEntity<>("Username already exists",HttpStatus.NOT_FOUND);
+	@ExceptionHandler(value=EmailAlreadyExistsException.class)
+	public ResponseEntity<Object> exception( EmailAlreadyExistsException exception){
+		return new ResponseEntity<>("Email already exists",HttpStatus.NOT_FOUND);
+		}
+	@ExceptionHandler(value=PizzaTypeNotFoundException.class)
+	public ResponseEntity<Object> exception( PizzaTypeNotFoundException exception){
+		return new ResponseEntity<>("No PizzaFound in selected type",HttpStatus.NOT_FOUND);
+		}
+	
+	@ExceptionHandler(value=InvalidUserException.class)
+	public ResponseEntity<Object> exception( InvalidUserException exception){
+		return new ResponseEntity<>("Invalis credentials",HttpStatus.NOT_FOUND);
 		}
 
 }

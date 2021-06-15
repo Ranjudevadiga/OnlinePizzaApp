@@ -1,7 +1,6 @@
 package com.cg.onlinepizza.dao;
 
-import java.sql.Date;
-import java.time.LocalDate;
+
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +14,9 @@ public interface PizzaOrderDao extends JpaRepository<PizzaOrder, Integer>{
 	
 	@Query(value="from PizzaOrder pizzaOrder where pizzaOrder.customer.customerId=?1")
 	public List<PizzaOrder> getPizzaOrderByCustomerId(int id);
+	
+	@Query(value="from PizzaOrder pizzaOrder where pizzaOrder.customer.customerId=?1 and (pizzaOrder.status='Ordered'or pizzaOrder.status='Accepted')")
+	public List<PizzaOrder> getCurrentOrders(int id);
 	
 	
 }
