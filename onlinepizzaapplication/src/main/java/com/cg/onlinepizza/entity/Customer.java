@@ -13,7 +13,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 
-
+/**
+ * 
+ * @author new
+ *
+ */
 @Entity
 public class Customer {
 	@Id
