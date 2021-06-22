@@ -237,6 +237,13 @@ public class AdminController {
 	    		return new ResponseEntity<PizzaOrder>(order,HttpStatus.OK);
 	    }
 	    
+	
+	@GetMapping("/viewAdminCurrentOrders")
+	public ResponseEntity <List<PizzaOrder>> viewCurrentOrders() {
+		List<PizzaOrder> order=adminservice.viewCurrentOrders();
+		if(order.size()<=0) throw new ListEmptyException();
+		return new ResponseEntity<List<PizzaOrder>>(order, HttpStatus.OK);
+	}
 	   
 	    
 	    

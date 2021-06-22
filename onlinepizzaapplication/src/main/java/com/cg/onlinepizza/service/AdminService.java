@@ -171,4 +171,10 @@ public class AdminService implements IAdminService{
 		return order;
 	}
 
+	@Override
+	public List<PizzaOrder> viewCurrentOrders() {
+		return pizzaOrderDao.getAdminCurrentOrders();
+		
+	}
+
 }

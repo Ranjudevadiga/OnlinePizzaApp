@@ -24,6 +24,9 @@ public interface PizzaOrderDao extends JpaRepository<PizzaOrder, Integer>{
 	@Query(value="from PizzaOrder pizzaOrder where pizzaOrder.customer.customerId=?1 and (pizzaOrder.status='Ordered'or pizzaOrder.status='Accepted')")
 	public List<PizzaOrder> getCurrentOrders(int id);
 	
+	@Query(value="from PizzaOrder pizzaOrder where pizzaOrder.status='Ordered'or pizzaOrder.status='Accepted'")
+	public List<PizzaOrder> getAdminCurrentOrders();
+	
 //	@Query(value="delete from PizzaOrder order where order.bookingOrderId=?1")
 //	public PizzaOrder cancelById(int id);
 	

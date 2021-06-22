@@ -26,4 +26,6 @@ public interface IAdminService {
 	public PizzaOrder acceptOrder(int orderId);
 	public PizzaOrder cancelOrder(int orderId);
 	public PizzaOrder delivered(int orderId); 
+	
+	public List<PizzaOrder> viewCurrentOrders();
 }

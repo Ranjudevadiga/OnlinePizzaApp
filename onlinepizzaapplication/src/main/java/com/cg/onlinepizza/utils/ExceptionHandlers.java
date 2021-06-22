@@ -47,7 +47,7 @@ public class ExceptionHandlers {
 	
 	@ExceptionHandler(value=OrderUpdateException.class)
 	public ResponseEntity<Object> exception( OrderUpdateException exception){
-		return new ResponseEntity<>("Order Cannot be updated",HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("Sorry You cant Update the Older Order",HttpStatus.NOT_FOUND);
 		}
 	
 	
@@ -100,7 +100,7 @@ public class ExceptionHandlers {
 		}
 	@ExceptionHandler(value=OrderCancelException.class)
 	public ResponseEntity<Object> exception( OrderCancelException exception){
-		return new ResponseEntity<>("Sorry You cant Cancel the Yesterday Order",HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("Sorry You cant Cancel the Older Order",HttpStatus.NOT_FOUND);
 		}
 
 }
