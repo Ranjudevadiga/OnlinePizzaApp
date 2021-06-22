@@ -39,7 +39,7 @@ import com.cg.onlinepizza.utils.PizzaTypeNotFoundException;
 import com.cg.onlinepizza.utils.PriceException;
 import com.cg.onlinepizza.utils.EmailAlreadyExistsException;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3001")
 
 
 

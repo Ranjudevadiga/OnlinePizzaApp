@@ -15,6 +15,7 @@ import com.cg.onlinepizza.entity.Coupon;
 import com.cg.onlinepizza.entity.Customer;
 import com.cg.onlinepizza.entity.Pizza;
 import com.cg.onlinepizza.entity.PizzaOrder;
+import com.cg.onlinepizza.utils.OrderNotAcceptedException;
 import com.cg.onlinepizza.utils.PizzaIdNotFoundException;
 
 
@@ -136,7 +137,7 @@ public class AdminService implements IAdminService{
 	
 	@Override
 	public List<PizzaOrder> viewPizzaOrders() {
-	List<PizzaOrder> order=pizzaOrderDao.findAll();
+	List<PizzaOrder> order=pizzaOrderDao.getAllOrder();
 	return order;
 	}
 
@@ -166,9 +167,14 @@ public class AdminService implements IAdminService{
 	@Override
 	public PizzaOrder delivered(int orderId) {
 		PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderId);
+		System.out.println(order.getStatus());
+		if(order.getStatus().equals("Accepted")) {
 		order.setStatus("Delivered");
 		pizzaOrderDao.save(order);
 		return order;
+		}else {
+			throw new OrderNotAcceptedException();
+		}
 	}
 
 	@Override

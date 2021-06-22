@@ -102,5 +102,9 @@ public class ExceptionHandlers {
 	public ResponseEntity<Object> exception( OrderCancelException exception){
 		return new ResponseEntity<>("Sorry You cant Cancel the Older Order",HttpStatus.NOT_FOUND);
 		}
+	@ExceptionHandler(value=OrderNotAcceptedException.class)
+	public ResponseEntity<Object> exception( OrderNotAcceptedException exception){
+		return new ResponseEntity<>("Sorry The order is not yet accepted...!",HttpStatus.NOT_FOUND);
+		}
 
 }

@@ -34,7 +34,7 @@ import com.cg.onlinepizza.utils.ListIsEmptyException;
 import com.cg.onlinepizza.utils.PizzaIdNotFoundException;
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3001")
 
 
 
@@ -207,7 +207,7 @@ public class AdminController {
 	 * @return
 	 */
 	@PutMapping("/cancelOrder/{id}")
-		public ResponseEntity<PizzaOrder> cancelOrder(@Valid @PathVariable int id,@RequestBody Pizza pizza) {
+		public ResponseEntity<PizzaOrder> cancelOrder(@Valid @PathVariable int id) {
 	    	PizzaOrder order=adminservice.cancelOrder(id);
 	    		return new ResponseEntity<PizzaOrder>(order,HttpStatus.OK);
 	    }
@@ -220,7 +220,7 @@ public class AdminController {
 	 * @return
 	 */
 	@PutMapping("/acceptOrder/{id}")
-		public ResponseEntity<PizzaOrder> acceptOrder(@Valid @PathVariable int id,@RequestBody Pizza pizza) {
+		public ResponseEntity<PizzaOrder> acceptOrder(@Valid @PathVariable int id) {
 	    	PizzaOrder order=adminservice.acceptOrder(id);
 	    		return new ResponseEntity<PizzaOrder>(order,HttpStatus.OK);
 	    }
@@ -232,7 +232,8 @@ public class AdminController {
 	 * @return
 	 */
 	@PutMapping("/deliver/{id}")
-		public ResponseEntity<PizzaOrder> deliverOrder(@Valid @PathVariable int id,@RequestBody Pizza pizza) {
+		public ResponseEntity<PizzaOrder> deliverOrder(@Valid @PathVariable int id) {
+		
 	    	PizzaOrder order=adminservice.delivered(id);
 	    		return new ResponseEntity<PizzaOrder>(order,HttpStatus.OK);
 	    }
