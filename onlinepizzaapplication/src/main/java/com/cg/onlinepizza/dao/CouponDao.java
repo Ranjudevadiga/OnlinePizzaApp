@@ -5,6 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cg.onlinepizza.entity.Coupon;
+
+/**
+ * 
+ * @author Mahalasa
+ *
+ */
 @Repository
 public interface CouponDao extends JpaRepository<Coupon, Integer> {
 	@Query(value="from Coupon coupon where coupon.couponName=?1")

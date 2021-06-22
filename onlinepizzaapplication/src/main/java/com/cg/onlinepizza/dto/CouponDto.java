@@ -3,7 +3,11 @@ package com.cg.onlinepizza.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-
+/**
+ * 
+ * @author Mahalasa
+ *
+ */
 public class CouponDto {
 	private int couponId;
 	@NotBlank(message="coupon name cant be empty")
@@ -18,6 +22,15 @@ public class CouponDto {
 	public CouponDto() {
 		super();
 	}
+	
+	/**
+	 * 
+	 * @param couponId
+	 * @param couponName
+	 * @param discountValue
+	 * @param couponDescription
+	 * @param pizzaId
+	 */
 	public CouponDto(int couponId, String couponName, int discountValue, String couponDescription, int pizzaId) {
 		super();
 		this.couponId = couponId;
@@ -26,6 +39,8 @@ public class CouponDto {
 		this.couponDescription = couponDescription;
 		this.pizzaId = pizzaId;
 	}
+	
+	
 	public int getCouponId() {
 		return couponId;
 	}

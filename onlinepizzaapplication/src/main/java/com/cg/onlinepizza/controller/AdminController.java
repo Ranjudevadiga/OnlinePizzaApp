@@ -33,29 +33,45 @@ import com.cg.onlinepizza.utils.ListEmptyException;
 import com.cg.onlinepizza.utils.ListIsEmptyException;
 import com.cg.onlinepizza.utils.PizzaIdNotFoundException;
 
+
 @CrossOrigin(origins = "http://localhost:3000")
+
+
+
+
 @RestController
 @RequestMapping("/Admin")
 public class AdminController {
+	
 	@Autowired
 	AdminService couponService;
 	@Autowired
 	CouponDao couponDao;
+	@Autowired
+	CustomerDao customerDao;
+	@Autowired
+	PizzaDao pizzaDao;
+	@Autowired
+	AdminService adminservice;
+	@Autowired
+	PizzaOrderService pizzaOrderService;
 	
-	 @Autowired
-		CustomerDao customerDao;
-	    @Autowired
-	   	PizzaDao pizzaDao;
-	    @Autowired
-	  	AdminService adminservice;
-	    @Autowired
-	    PizzaOrderService pizzaOrderService;
+	
+	/**
+	 * 
+	 * @param couponDto
+	 * @return
+	 */
 	@PostMapping("/addCoupon")
 	public ResponseEntity<String> addCoupon(@Valid @RequestBody CouponDto couponDto){
 		couponService.addCoupans(couponDto);
 		return new ResponseEntity<>("coupon inserted",HttpStatus.OK);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping("/viewCoupons")
 	public ResponseEntity<List <Coupon>> viewCoupons(){
 		List<Coupon> couponList = couponService.viewCoupons();
@@ -64,6 +80,12 @@ public class AdminController {
 		else	
 			return new ResponseEntity<>(couponList, HttpStatus.OK);
 	}
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
 	@GetMapping("/viewOrders")
 	public ResponseEntity<List <PizzaOrder>> viewOrders(){
 		List<PizzaOrder> order = adminservice.viewPizzaOrders();
@@ -73,6 +95,12 @@ public class AdminController {
 			return new ResponseEntity<>(order, HttpStatus.OK);
 	}
 	
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/deletecoupons")
 	public ResponseEntity<String> deleteCoupons(@RequestParam int id){
 		if(couponDao.existsById(id)) {
@@ -83,6 +111,13 @@ public class AdminController {
 			throw new CouponDoesNotExistsException();
 	}
 	
+	
+	/**
+	 * 
+	 * @param couponId
+	 * @param couponDto
+	 * @return
+	 */
 	@PutMapping("/editcoupon") 
 	public ResponseEntity<String> editCoupons(@Valid @RequestParam int couponId,@RequestBody CouponDto couponDto){
 		if(couponDao.existsById(couponId)) {
@@ -93,19 +128,37 @@ public class AdminController {
 			throw new CouponDoesNotExistsException();
 
 }
-	 @PostMapping("/addpizza")	
+	 
+	/**
+	 * 
+	 * @param pizza
+	 * @return
+	 */
+	@PostMapping("/addpizza")	
 		public ResponseEntity<String> addPizza(@Valid @RequestBody Pizza pizza){
 	    	adminservice.addPizza(pizza);
 			return new ResponseEntity<String>("Pizza Added",HttpStatus.OK);
 		}
 	    
-		@GetMapping("/getallpizza")
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@GetMapping("/getallpizza")
 		public ResponseEntity<List<Pizza>> getAllPizza(){
 			List<Pizza> pizzaList=adminservice.viewPizzaList();
 			return new ResponseEntity<List<Pizza>>(pizzaList,HttpStatus.OK);
 		}
 		
-		@DeleteMapping("/deletepizza/{pizzaId}")
+	
+	/**
+	 * 
+	 * @param pizza_id
+	 * @return
+	 * @throws PizzaIdNotFoundException
+	 */
+	@DeleteMapping("/deletepizza/{pizzaId}")
 		public ResponseEntity<String> deletePizza(@PathVariable("pizzaId")int pizza_id) throws PizzaIdNotFoundException{
 			if(!pizzaDao.findById(pizza_id).isPresent()) {
 				throw new PizzaIdNotFoundException();
@@ -115,7 +168,12 @@ public class AdminController {
 		}
 		
 	    
-		@GetMapping("/getallcustomer")
+	/**
+	 * 
+	 * @return
+	 * @throws ListIsEmptyException
+	 */
+	@GetMapping("/getallcustomer")
 	    public ResponseEntity<List<Customer>> viewCustomer()  throws ListIsEmptyException{
 	    	List<Customer> customers = customerDao.findAll();
 	    	if(customers.isEmpty()) {
@@ -126,7 +184,14 @@ public class AdminController {
 	    }
 	    
 	    
-	    @PutMapping("/updatepizza/{pizzaId}")
+	/**
+	 * 
+	 * @param pizzaId
+	 * @param pizza
+	 * @return
+	 * @throws PizzaIdNotFoundException
+	 */
+	@PutMapping("/updatepizza/{pizzaId}")
 		public ResponseEntity<String> updatePizza(@Valid @PathVariable int pizzaId,@RequestBody Pizza pizza) throws PizzaIdNotFoundException{
 	    	if(pizzaDao.existsById(pizza.getPizzaId())) {
 	    		String str=adminservice.updatePizza(pizzaId, pizza);
@@ -135,20 +200,38 @@ public class AdminController {
 	    	else throw new PizzaIdNotFoundException();
 	    }
 	    
-	    @PutMapping("/cancelOrder/{id}")
+	/**
+	 * 
+	 * @param id
+	 * @param pizza
+	 * @return
+	 */
+	@PutMapping("/cancelOrder/{id}")
 		public ResponseEntity<PizzaOrder> cancelOrder(@Valid @PathVariable int id,@RequestBody Pizza pizza) {
 	    	PizzaOrder order=adminservice.cancelOrder(id);
 	    		return new ResponseEntity<PizzaOrder>(order,HttpStatus.OK);
 	    }
 	    
 	    
-	    @PutMapping("/acceptOrder/{id}")
+	/**
+	 * 
+	 * @param id
+	 * @param pizza
+	 * @return
+	 */
+	@PutMapping("/acceptOrder/{id}")
 		public ResponseEntity<PizzaOrder> acceptOrder(@Valid @PathVariable int id,@RequestBody Pizza pizza) {
 	    	PizzaOrder order=adminservice.acceptOrder(id);
 	    		return new ResponseEntity<PizzaOrder>(order,HttpStatus.OK);
 	    }
 	    
-	    @PutMapping("/deliver/{id}")
+	/**
+	 * 
+	 * @param id
+	 * @param pizza
+	 * @return
+	 */
+	@PutMapping("/deliver/{id}")
 		public ResponseEntity<PizzaOrder> deliverOrder(@Valid @PathVariable int id,@RequestBody Pizza pizza) {
 	    	PizzaOrder order=adminservice.delivered(id);
 	    		return new ResponseEntity<PizzaOrder>(order,HttpStatus.OK);

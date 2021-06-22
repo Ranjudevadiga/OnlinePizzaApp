@@ -13,7 +13,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 
-
+/**
+ * 
+ * @author Shashank
+ *
+ */
 @Entity
 public class Customer {
 	@Id
@@ -43,12 +47,7 @@ public class Customer {
 	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
 	private List<PizzaOrder> pizzaOrder;
 	
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
+	
 	/*public List<CustomerOrder> getOrder() {
 		return order;
 	}
@@ -58,6 +57,17 @@ public class Customer {
 	public Customer() {
 		super();
 	}
+	
+	/**
+	 * 
+	 * @param customerId
+	 * @param customerName
+	 * @param customerMobile
+	 * @param customerEmail
+	 * @param customerAddress
+	 * @param password
+	 * @param role
+	 */
 	public Customer(int customerId, String customerName, Long customerMobile, String customerEmail,
 			String customerAddress, String password,String role) {
 		super();
@@ -69,6 +79,9 @@ public class Customer {
 		this.password = password;
 		this.role=role;
 	}
+	
+	
+	
 	public int getCustomerId() {
 		return customerId;
 	}
@@ -80,6 +93,12 @@ public class Customer {
 	}
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
 	}
 	public Long getCustomerMobile() {
 		return customerMobile;

@@ -17,6 +17,7 @@ import com.cg.onlinepizza.entity.Pizza;
 import com.cg.onlinepizza.entity.PizzaOrder;
 import com.cg.onlinepizza.utils.PizzaIdNotFoundException;
 
+
 @Service
 public class AdminService implements IAdminService{
 	@Autowired
@@ -28,7 +29,8 @@ public class AdminService implements IAdminService{
 	@Autowired
 	PizzaOrderDao pizzaOrderDao;
 	
-
+	
+	//Add Coupans
 	@Override
 	public void addCoupans(CouponDto couponDto) {
 		Coupon coupon=new Coupon();
@@ -41,7 +43,8 @@ public class AdminService implements IAdminService{
 		coupon.setPizza(pizza);
 		couponDao.save(coupon);
 	}
-
+	
+	//Updates Coupans
 	@Override
 	public String editCoupans(CouponDto couponDto, int coupanId) {
 		if(couponDao.existsById(coupanId)){
@@ -59,6 +62,7 @@ public class AdminService implements IAdminService{
 			return null;
 	}
 
+	//Deletes Coupans
 	@Override
 	public String deleteCoupans(int coupanId) {
 		if(couponDao.existsById(coupanId)) {
@@ -69,6 +73,7 @@ public class AdminService implements IAdminService{
 			return null;
 	}
 
+	//View all coupans 
 	@Override
 	public List<Coupon> viewCoupons() {
 		List<Coupon> couponList =couponDao.findAll();
@@ -78,75 +83,92 @@ public class AdminService implements IAdminService{
 			return couponList;
 	
 	}
+	
+	
 	//View all customers
-		@Override
-			public List<Customer> viewCustomer() {
-				List<Customer> customers = customerDao.findAll();
-					return customers;
-			}
+	@Override
+		public List<Customer> viewCustomer() {
+			List<Customer> customers = customerDao.findAll();
+				return customers;
+	}
 		
 		
 		
-		//Pizza table insertion
-		@Override
-		public void addPizza(Pizza pizza) {
+	//Pizza table insertion
+	@Override
+	public void addPizza(Pizza pizza) {
+		pizzaDao.save(pizza);
+	}
+		
+
+	
+	//Updating Pizza Information
+	@Override
+	public String updatePizza(int pizzaId, Pizza pizza) {
+		if(pizzaDao.existsById(pizzaId)){
 			pizzaDao.save(pizza);
+			return "Pizza Updated";
 		}
-		
-		//Updating Pizza Information
-		@Override
-		public String updatePizza(int pizzaId, Pizza pizza) {
-			if(pizzaDao.existsById(pizzaId)){
-				pizzaDao.save(pizza);
-				return "Pizza Updated";
-			}
-			return "Pizza Id not valid";
+		return "Pizza Id not valid";
 				
-		}
+	}
 		
-		//Deleting Pizza
-		@Override
-		public String deletePizza(int pizzaId) {
-				pizzaDao.deleteById(pizzaId);
+
+	
+	//Deleting Pizza
+	@Override
+	public String deletePizza(int pizzaId) {
+			pizzaDao.deleteById(pizzaId);
 				return "Pizza Cancelled";
 			
 		}
 
-		//To view all the available Pizza's
-		@Override
-		public List<Pizza> viewPizzaList() throws PizzaIdNotFoundException {
-			List<Pizza> pizza = pizzaDao.findAll();
-			return pizza;
-		}
 
-		@Override
-		public List<PizzaOrder> viewPizzaOrders() {
-		List<PizzaOrder> order=pizzaOrderDao.findAll();
+	
+	//To view all the available Pizza's
+	@Override
+	public List<Pizza> viewPizzaList() throws PizzaIdNotFoundException {
+		List<Pizza> pizza = pizzaDao.findAll();
+		return pizza;
+	}
+
+	
+	
+	@Override
+	public List<PizzaOrder> viewPizzaOrders() {
+	List<PizzaOrder> order=pizzaOrderDao.findAll();
+	return order;
+	}
+
+
+	
+	
+	@Override
+	public PizzaOrder acceptOrder(int orderId) {
+		PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderId);
+		order.setStatus("Accepted");
+		pizzaOrderDao.save(order);
 		return order;
-		}
+	}
 
-		@Override
-		public PizzaOrder acceptOrder(int orderId) {
-			PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderId);
-			order.setStatus("Accepted");
-			pizzaOrderDao.save(order);
-			return order;
-		}
 
-		@Override
-		public PizzaOrder cancelOrder(int orderId) {
-			PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderId);
-			order.setStatus("Cancelled");
-			pizzaOrderDao.save(order);
-			return order;
-		}
+	
+	@Override
+	public PizzaOrder cancelOrder(int orderId) {
+		PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderId);
+		order.setStatus("Cancelled");
+		pizzaOrderDao.save(order);
+		return order;
+	}
 
-		@Override
-		public PizzaOrder delivered(int orderId) {
-			PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderId);
-			order.setStatus("Delivered");
-			pizzaOrderDao.save(order);
-			return order;
-		}
+
+	
+	@Override
+	public PizzaOrder delivered(int orderId) {
+		PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderId);
+		order.setStatus("Delivered");
+		pizzaOrderDao.save(order);
+		return order;
+	}
 
 }
