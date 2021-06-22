@@ -33,7 +33,7 @@ import com.cg.onlinepizza.utils.ListEmptyException;
 import com.cg.onlinepizza.utils.ListIsEmptyException;
 import com.cg.onlinepizza.utils.PizzaIdNotFoundException;
 
-@CrossOrigin(origins = "http://localhost:3002")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/Admin")
 public class AdminController {

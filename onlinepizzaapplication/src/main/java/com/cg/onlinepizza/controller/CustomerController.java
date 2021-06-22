@@ -38,7 +38,7 @@ import com.cg.onlinepizza.utils.PizzaNotFoundInRangeException;
 import com.cg.onlinepizza.utils.PizzaTypeNotFoundException;
 import com.cg.onlinepizza.utils.PriceException;
 import com.cg.onlinepizza.utils.EmailAlreadyExistsException;
-@CrossOrigin(origins = "http://localhost:3002")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/Customer")
 @Validated
@@ -104,10 +104,10 @@ public class CustomerController {
 			throw new PriceException();
 		}
 	}
-	
-	@GetMapping("/viewPizzaByType")
-	public ResponseEntity <List<Pizza>> viewPizzaByType(@RequestBody Pizza pizza) throws PizzaTypeNotFoundException {
-			List<Pizza> pizzaList=pizzaOrderService.viewPizzaByType(pizza);
+
+	@GetMapping("/viewPizzaByType/{type}")
+	public ResponseEntity <List<Pizza>> viewPizzaByType(@PathVariable String type) throws PizzaTypeNotFoundException {
+			List<Pizza> pizzaList=pizzaOrderService.viewPizzaByType(type);
 			if(pizzaList.size()<=0) throw new PizzaTypeNotFoundException();
 			return new ResponseEntity<List<Pizza>>(pizzaList, HttpStatus.OK);
 		

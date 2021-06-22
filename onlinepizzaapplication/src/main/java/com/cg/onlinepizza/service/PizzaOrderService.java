@@ -18,6 +18,7 @@ import com.cg.onlinepizza.entity.PizzaOrder;
 import com.cg.onlinepizza.utils.BookingIdNotAvailableException;
 import com.cg.onlinepizza.utils.CouponDoesNotExistsException;
 import com.cg.onlinepizza.utils.CouponDoesNotMatchException;
+import com.cg.onlinepizza.utils.OrderCancelException;
 import com.cg.onlinepizza.utils.OrderUpdateException;
 import com.cg.onlinepizza.utils.PizzaIdNotFoundException;
 
@@ -119,13 +120,24 @@ public class PizzaOrderService implements IPizzaOrderService{
 
 	@Override
 	public List<PizzaOrder> cancelPizzaOrder(int orderId) {
+		
+		LocalDate date=LocalDate.now();
+		PizzaOrder order=pizzaOrderDao.getPizzaOrderById(orderId);
+		if(order.getDateOfOrder().compareTo(date)==0) {
 		pizzaOrderDao.deleteById(orderId);
 		return pizzaOrderDao.findAll();
+		}else {
+			throw new OrderCancelException();
+		}
+		
 	}
 
 	@Override
 	public PizzaOrder viewPizzaOrder(int orderId) {
-		return pizzaOrderDao.getPizzaOrderById(orderId);
+		PizzaOrder order= pizzaOrderDao.getPizzaOrderById(orderId);
+		System.out.println(order.getPizza().getPizzaName());
+		return order;
+		
 		
 	}
 
@@ -240,8 +252,8 @@ public class PizzaOrderService implements IPizzaOrderService{
 	}
 
 	@Override
-	public List<Pizza> viewPizzaByType(Pizza pizza) {
-		List<Pizza> pizzaList=pizzaDao.sortByType(pizza.getPizzaType());
+	public List<Pizza> viewPizzaByType(String type) {
+		List<Pizza> pizzaList=pizzaDao.sortByType(type);
 		return pizzaList;
 	}
 		

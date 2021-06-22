@@ -27,7 +27,7 @@ public class Coupon {
 	@ManyToOne
 	@JoinColumn(name="pizzaId",referencedColumnName = "pizzaId")
 	private Pizza pizza;
-	@OneToMany(mappedBy = "coupon",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "coupon")
 	private List<PizzaOrder> pizzaorder;
 	/*public List<PizzaOrder> getPizzaorder() {
 		return pizzaorder;

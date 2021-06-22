@@ -68,7 +68,7 @@ public class PizzaOrder {
 	@JoinColumn(name="pizzaId",referencedColumnName = "pizzaId")
 	private Pizza pizza;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="couponId",referencedColumnName = "couponId")
 	private Coupon coupon;
 	

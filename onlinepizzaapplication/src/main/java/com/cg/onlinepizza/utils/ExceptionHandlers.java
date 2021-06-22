@@ -79,5 +79,9 @@ public class ExceptionHandlers {
 	public ResponseEntity<Object> exception( InvalidUserException exception){
 		return new ResponseEntity<>("Invalis credentials",HttpStatus.NOT_FOUND);
 		}
+	@ExceptionHandler(value=OrderCancelException.class)
+	public ResponseEntity<Object> exception( OrderCancelException exception){
+		return new ResponseEntity<>("Sorry You cant Cancel the Yesterday Order",HttpStatus.NOT_FOUND);
+		}
 
 }

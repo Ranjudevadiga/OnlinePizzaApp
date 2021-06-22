@@ -26,7 +26,7 @@ public interface IPizzaOrderService {
 	
 	List<Pizza> viewPizzaByPrice(double min,double max);
 	
-	List<Pizza> viewPizzaByType(Pizza pizza);
+	List<Pizza> viewPizzaByType(String type);
 	
 	List<Coupon> viewCoupons();
 	
